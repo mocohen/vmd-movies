@@ -10,7 +10,7 @@ mkdir movie
 #for i in `seq 1 50`
 #do
 i=0
-  $vmd -startup white_background.tcl -e make_movie.tcl -args trajectory_files/dopc.mapped.withres.pdb trajectory_files/${i}.dcd trajectory_files/defects.${i}.xyz movie/ $i
+  $vmd -startup startup.tcl -e make_movie.tcl -args trajectory_files/dopc.mapped.withres.pdb trajectory_files/${i}.dcd trajectory_files/defects.${i}.xyz movie/ $i
 #done
 
 # loop over the number of snapshots you have

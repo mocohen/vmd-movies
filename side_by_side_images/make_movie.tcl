@@ -1,3 +1,7 @@
+# Make movie with two different views of a trajectory
+#
+# Created By Morris Sharp
+
 
 ############## Set input variables #######################
 if { [llength $argv] !=  5} {
@@ -70,11 +74,8 @@ mol selection {not within 1 of index 7999}
 mol material AOShiny
 mol addrep 1
 
-menu main on ; menu main move 1094 108
-menu graphics on ; menu graphics move 1088 651
-display resize 768 768
-axes location Off
 
+# make sure to center the view on the defects
 mol showrep 0 0 0
 mol showrep 0 1 0
 mol showrep 0 2 0
@@ -86,8 +87,8 @@ mol showrep 0 2 1
 
 
 for {set f $first_frame} {$f < [expr $num_frames / $step_size] } {incr f} {
-		# calculate and set frame number
-		set dcdFrame [expr $f * $step_size]
+	# calculate and set frame number
+	set dcdFrame [expr $f * $step_size]
         set theFrame [expr $dcdFrame + $firstFrame]
         molinfo 0 set frame $dcdFrame
         molinfo 1 set frame $dcdFrame
@@ -95,8 +96,8 @@ for {set f $first_frame} {$f < [expr $num_frames / $step_size] } {incr f} {
         
 		
 
-		# center membrane
-		set sel_P [atomselect 0 "name H"]
+	# center membrane
+	set sel_P [atomselect 0 "name H"]
         set centerOfP [measure center $sel_P]
         set x [expr -1.0*[lindex $centerOfP 0]]
         set y [expr -1.0*[lindex $centerOfP 1]]
@@ -106,23 +107,22 @@ for {set f $first_frame} {$f < [expr $num_frames / $step_size] } {incr f} {
         $all moveby $move_vec
 
 
-		# make sure show the defects on the membrane
+	# make sure show the defects on the membrane
         mol showrep 1 0 1
-		# make sure snapshot is of top of membrane
-		#display resetview
+	# make sure snapshot is of top of membrane
 
-		#render image with defects
+	#render image with defects
         set theFile [format "$out_dir/vmdscene.%05d.tga" $theFrame]        
         render snapshot $theFile
         
-		# You can also render the image with Tachyon, which is much higher quality
-		# Just be aware that it will take a lot longer
-		# set theFile [format "$out_dir/vmdscene.%05d.tga" $theFrame]        
+	# You can also render the image with Tachyon, which is much higher quality
+	# Just be aware that it will take a lot longer
+	# set theFile [format "$out_dir/vmdscene.%05d.tga" $theFrame]        
         # render TachyonInternal $theFile
 
-		# don't show defects in image
+	# don't show defects in image
         mol showrep 1 0 0 
-		# render image without defects
+	# render image without defects
         set theFile [format "$out_dir/vmdscene.nodefect.%05d.tga" $theFrame]
         render snapshot $theFile
 
